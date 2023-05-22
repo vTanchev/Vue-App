@@ -19,21 +19,19 @@
         v-model="searchValue"
       />
     </div>
-    <div :key="item.name" v-for="item in itemsList">
-      <item v-show="!isLoading" :item="item" />
-    </div>
+    <file-item v-for="item in items" :key="item.name" :item="item"></file-item>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 
-import Item from "./Item.vue";
+import FileItem from "./FileItem.vue";
 
 export default {
   name: "FileItems",
   components: {
-    Item,
+    FileItem,
   },
   data() {
     return {
@@ -98,7 +96,7 @@ export default {
   border-top: 12px solid #3498db;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
 @keyframes spin {

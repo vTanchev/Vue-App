@@ -1,7 +1,7 @@
 <template>
   <div class="homepage">
     <Header />
-    <file-items />
+    <file-items></file-items>
   </div>
 </template>
 
