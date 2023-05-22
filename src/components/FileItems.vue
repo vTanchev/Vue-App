@@ -19,13 +19,17 @@
         v-model="searchValue"
       />
     </div>
-    <file-item v-for="item in items" :key="item.name" :item="item"></file-item>
+    <file-item
+      v-for="item in filteredFiles"
+      :key="item.name"
+      :item="item"
+    ></file-item>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import { ref } from "vue";
 import FileItem from "./FileItem.vue";
 
 export default {
@@ -42,15 +46,13 @@ export default {
     };
   },
   computed: {
-    itemsList() {
-      if (this.searchValue.trim().length > 0) {
-        return this.items.filter((item) =>
-          item.name
-            .toLowerCase()
-            .includes(this.searchValue.trim().toLowerCase())
-        );
-      }
-      return this.items;
+    filteredFiles() {
+      let filtered = this.items.filter((file_item) => {
+        const match_regex = this.searchValue;
+        var re = new RegExp(match_regex, "g");
+        if (file_item.name.toLowerCase().match(re)) return true;
+      });
+      return filtered;
     },
   },
   mounted() {
