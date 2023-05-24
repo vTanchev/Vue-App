@@ -11,13 +11,8 @@
       />
       <p class="p-text">auto load from saved settings</p>
     </div>
-    <div v-show="!isLoading">
-      <input
-        class="search"
-        type="text"
-        placeholder="Search files"
-        v-model="searchValue"
-      />
+    <div class="search-div" v-show="!isLoading">
+      <input type="text" placeholder="Search files" v-model="searchValue" />
     </div>
     <file-item
       v-for="item in filteredFiles"
@@ -88,7 +83,6 @@ export default {
 <style scoped>
 .container {
   display: flex;
-
   flex-direction: column;
 }
 .loader {
@@ -112,11 +106,18 @@ export default {
 .input {
   display: block;
 }
-.search {
+
+.search-div {
+  margin: 20px 0 0 0;
+  border-top: 1px solid #c4c2c2;
+  border-bottom: 1px solid #c4c2c2;
+}
+.search-div input {
   width: 100%;
   outline: none;
-  margin: 40px 0;
-  padding: 10px;
+  border: none;
+  padding: 16px;
+  font-size: 16px;
 }
 .p-text {
   margin-top: 4px;
