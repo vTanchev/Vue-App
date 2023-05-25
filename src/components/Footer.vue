@@ -9,7 +9,6 @@ export default {
   name: "Footer",
 };
 </script>
-
 <style scoped>
 footer {
   border-top: solid 2px #ece9e9;

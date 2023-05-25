@@ -1,16 +1,14 @@
 <template>
-  <homepage />
+  <DataItems />
 </template>
 
 <script>
-import Homepage from "./components/Homepage.vue";
-
+import DataItems from "./components/DataItems.vue";
 export default {
-  name: "App",
   components: {
-    Homepage,
+    DataItems,
   },
 };
 </script>
 
-<style></style>
+<style scoped></style>
