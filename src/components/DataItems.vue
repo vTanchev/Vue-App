@@ -1,13 +1,9 @@
 <template>
-  <div class="app">
-    <div>
+  <div class="wrap">
+    <div class="loader" v-show="isLoading"></div>
+    <div v-show="!isLoading">
       <Header />
-      <file-item-vue
-        :data-arr="dataArr"
-        :is-loading="isLoading"
-        :toggle-subfolders="toggleSubfolders"
-        :show-subfolders="showSubfolders"
-      ></file-item-vue>
+      <file-item-vue :files="files"></file-item-vue>
       <Footer />
     </div>
   </div>
@@ -27,9 +23,8 @@ export default {
     Footer,
   },
   setup() {
-    const dataArr = ref([]);
+    const files = ref([]);
     const isLoading = ref(false);
-    // const showSubfolders = ref(false);
 
     const fetchData = async () => {
       isLoading.value = true;
@@ -50,7 +45,7 @@ export default {
             headers,
           }
         );
-        dataArr.value = response.data || [];
+        files.value = response.data || [];
       } catch (error) {
         console.error("Error fetching file data:", error);
       }
@@ -60,31 +55,31 @@ export default {
 
     onMounted(fetchData);
 
-    // const toggleSubfolders = () => {
-    //   showSubfolders.value = !showSubfolders.value;
-    // };
-
     return {
-      dataArr,
+      files,
       isLoading,
-      //   showSubfolders,
-      //   toggleSubfolders,
     };
   },
 };
 </script>
 
 <style scoped>
-.app {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 650px;
-  height: 100vh;
-  overflow: auto;
-  padding: 20px;
-  background-color: #fff;
-  border: none;
-  border-radius: 4px;
+.loader {
+  margin: 140px auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 12px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
