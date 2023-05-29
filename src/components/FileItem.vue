@@ -23,9 +23,13 @@
               />
             </div>
             <div class="file-info">
-              <h4>{{ item.data.basename_file }}</h4>
-              <p>{{ item.data.count_dir_files }} <span>FILES</span></p>
-              <p><span>SIZE:</span> {{ item.data.get_directory_size }}</p>
+              <div class="file-title">{{ item.data.basename_file }}</div>
+              <div class="file-files">
+                {{ item.data.count_dir_files }} <span>FILES</span>
+              </div>
+              <div class="file-size">
+                <span>SIZE:</span> {{ item.data.get_directory_size }}
+              </div>
             </div>
           </a>
         </div>
@@ -44,9 +48,13 @@
               <Icon icon="ion:image-sharp" color="#a2c11c" width="50px" />
             </div>
             <div class="file-info">
-              <h4>{{ item.data.basename_file }}</h4>
-              <p><span>SIZE:</span> {{ item.data.file_size }}</p>
-              <p><span>LAST MODIFIED:</span> {{ item.data.last_modified }}</p>
+              <div class="file-title">{{ item.data.basename_file }}</div>
+              <div class="file-size">
+                <span>SIZE:</span> {{ item.data.file_size }}
+                <div class="file-modified">
+                  <span>LAST MODIFIED:</span> {{ item.data.last_modified }}
+                </div>
+              </div>
             </div>
           </a>
         </div>
@@ -119,7 +127,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-
+  padding: 10px 0;
   border-top: solid 1px #ece9e9;
   cursor: pointer;
 }
@@ -135,12 +143,19 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.file-info h4 {
+.file-title {
   color: #399ae5;
   font-weight: bold;
   font-size: 18px;
+  padding-bottom: 10px;
 }
-.file-info p {
+
+.file-size {
+  font-size: 10px;
+  color: #666666;
+}
+.file-files,
+.file-modified {
   font-size: 10px;
   color: #666666;
 }

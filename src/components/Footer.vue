@@ -17,8 +17,4 @@ footer {
   text-align: center;
   font-size: 14px;
 }
-a {
-  text-decoration: none;
-  color: #399ae5;
-}
 </style>
