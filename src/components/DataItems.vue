@@ -87,10 +87,11 @@ export default {
         );
       }
 
-      const userN = "adamantus";
-      const pw = "lemon7";
-
-      const encodeCredentials = btoa(`${userN}:${pw}`);
+      const encodeCredentials = btoa(
+        `${import.meta.env.VITE_APP_USERNAME}:${
+          import.meta.env.VITE_APP_PASSWORD
+        }`
+      );
 
       const headers = {
         Authorization: `Basic ${encodeCredentials}`,
@@ -102,13 +103,10 @@ export default {
       };
 
       try {
-        const response = await axios.get(
-          "https://php72.afk.mk/images/api.php",
-          {
-            params: params,
-            headers: headers,
-          }
-        );
+        const response = await axios.get(import.meta.env.VITE_API_URL, {
+          params: params,
+          headers: headers,
+        });
         files.value = response.data || [];
       } catch (error) {
         console.error("Error fetching file data:", error);
