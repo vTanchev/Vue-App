@@ -14,7 +14,7 @@
     <template v-for="item in filteredFiles" :key="item.name" ref="ref_items">
       <template v-if="item.type == 'dir'">
         <div class="main-file">
-          <a class="file" @click="onItemClick(item, $event)" :key="item.name">
+          <a class="file" @click="fetchSubItems(item)" :key="item.name">
             <div class="file-type">
               <Icon
                 icon="material-symbols:folder-sharp"
@@ -38,7 +38,10 @@
           class="sub"
           :class="{ shown: item.shown }"
         >
-          <file-item-vue :files="item.subs"></file-item-vue>
+          <file-item-vue
+            :files="getSubItems(item)"
+            v-if="shouldShowSubItems(item.name)"
+          ></file-item-vue>
         </div>
       </template>
       <template v-else>
@@ -66,6 +69,7 @@
 <script>
 import { Icon } from "@iconify/vue";
 import { ref } from "vue";
+import { useItemStore } from "../store/Items";
 
 export default {
   name: "file-item-vue",
@@ -81,6 +85,7 @@ export default {
   setup() {
     const searchValue = ref("");
     const showSubfolders = ref(false);
+    const itemStore = useItemStore();
 
     const toggleSubfolders = () => {
       showSubfolders.value = !showSubfolders.value;
@@ -90,6 +95,7 @@ export default {
       searchValue,
       toggleSubfolders,
       showSubfolders,
+      itemStore,
     };
   },
   computed: {
@@ -113,6 +119,18 @@ export default {
       return false;
     },
     onKeyUp(e) {},
+
+    fetchSubItems(item) {
+      this.itemStore.getSubItems(item);
+    },
+
+    getSubItems(folder) {
+      return this.itemStore.subItemsCache[folder] || [];
+    },
+
+    shouldShowSubItems(folder) {
+      return !!this.itemStore.subItemsCache[folder];
+    },
   },
 };
 </script>

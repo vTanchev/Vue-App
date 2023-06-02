@@ -8,38 +8,12 @@
           <label>Load Saved: </label>
           <input type="checkbox" name="loaded" id="loaded" />
           <p class="loaded-p">auto load from saved settings</p>
+          <div>
+            <button @click="resetState">Reset state</button>
+          </div>
         </div>
-        <!-- <div class="time-controls">
-          <div class="date-wrapper">
-            <span class="upper fs-0-7">Older than: </span>
-            <Datepicker
-              v-model="ending_date"
-              @update:model-value="handleDate"
-              :enableTimePicker="false"
-            />
-          </div>
-          <div class="date-wrapper">
-            <span>Younger than: </span>
-            <Datepicker
-              v-model="starting_date"
-              @update:model-value="handleDate"
-              :enableTimePicker="false"
-            />
-          </div>
-        </div> -->
       </div>
-      <!-- <div class="other-controls right">
-        <div v-show="starting_date || ending_date" class="status-text">
-          <span class="date-span">showing files last modified from: </span
-          ><span class="date-label">{{
-            filters.date_format(starting_date)
-          }}</span
-          ><span class="date-span"> to: </span
-          ><span class="date-label">{{
-            filters.date_format(ending_date)
-          }}</span>
-        </div>
-      </div> -->
+
       <file-item-vue :files="items"></file-item-vue>
       <Footer />
     </div>
@@ -55,7 +29,6 @@ import Datepicker from "@vuepic/vue-datepicker";
 
 import "@vuepic/vue-datepicker/dist/main.css";
 
-import axios from "axios";
 import { computed, reactive, toRef, toRefs } from "vue";
 import { storeToRefs } from "pinia";
 import { useItemStore } from "../store/Items";
@@ -99,9 +72,15 @@ export default {
       }
     });
 
+    const resetState = async () => {
+      itemStore.reset();
+
+      await itemStore.getItems();
+    };
+
     return {
       isLoading,
-
+      resetState,
       filters,
 
       filteredFiles,
