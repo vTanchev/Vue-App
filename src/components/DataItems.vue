@@ -9,7 +9,7 @@
           <input type="checkbox" name="loaded" id="loaded" />
           <p class="loaded-p">auto load from saved settings</p>
         </div>
-        <div class="time-controls">
+        <!-- <div class="time-controls">
           <div class="date-wrapper">
             <span class="upper fs-0-7">Older than: </span>
             <Datepicker
@@ -26,9 +26,9 @@
               :enableTimePicker="false"
             />
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="other-controls right">
+      <!-- <div class="other-controls right">
         <div v-show="starting_date || ending_date" class="status-text">
           <span class="date-span">showing files last modified from: </span
           ><span class="date-label">{{
@@ -39,23 +39,26 @@
             filters.date_format(ending_date)
           }}</span>
         </div>
-      </div>
-      <file-item-vue :files="filteredFiles"></file-item-vue>
+      </div> -->
+      <file-item-vue :files="items"></file-item-vue>
       <Footer />
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
-import axios from "axios";
 import FileItemVue from "./FileItem.vue";
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 import filters from "./filter/filters";
-
 import Datepicker from "@vuepic/vue-datepicker";
+
 import "@vuepic/vue-datepicker/dist/main.css";
+
+import axios from "axios";
+import { computed, reactive, toRef, toRefs } from "vue";
+import { storeToRefs } from "pinia";
+import { useItemStore } from "../store/Items";
 
 export default {
   components: {
@@ -65,61 +68,16 @@ export default {
     Datepicker,
   },
   setup() {
-    const files = ref([]);
-    const isLoading = ref(false);
-    const starting_date = ref(null);
-    const ending_date = ref(null);
+    // task 2
+    const itemStore = useItemStore();
+    const { items, isLoading } = toRefs(itemStore.$state);
 
-    const fetchData = async () => {
-      isLoading.value = true;
-      let starting_date_local = null;
-      let ending_date_local = null;
-
-      if (starting_date.value) {
-        starting_date_local = Math.floor(
-          new Date(starting_date.value).getTime() / 1000
-        );
-      }
-
-      if (ending_date.value) {
-        ending_date_local = Math.floor(
-          new Date(ending_date.value).getTime() / 1000
-        );
-      }
-
-      const encodeCredentials = btoa(
-        `${import.meta.env.VITE_APP_USERNAME}:${
-          import.meta.env.VITE_APP_PASSWORD
-        }`
-      );
-
-      const headers = {
-        Authorization: `Basic ${encodeCredentials}`,
-      };
-
-      let params = {
-        cut_date: starting_date_local,
-        cut_date_end: ending_date_local,
-      };
-
-      try {
-        const response = await axios.get(import.meta.env.VITE_API_URL, {
-          params: params,
-          headers: headers,
-        });
-        files.value = response.data || [];
-      } catch (error) {
-        console.error("Error fetching file data:", error);
-      }
-
-      isLoading.value = false;
-    };
-
-    onMounted(fetchData);
+    // fetch from store
+    itemStore.getItems();
 
     const filteredFiles = computed(() => {
       if (starting_date.value || ending_date.value) {
-        return files.value.filter((file) => {
+        return items.value.filter((file) => {
           const fileDate = new Date(file.date);
           const startDate = starting_date.value
             ? new Date(starting_date.value)
@@ -142,13 +100,12 @@ export default {
     });
 
     return {
-      files,
       isLoading,
-      ending_date,
-      starting_date,
+
       filters,
-      handleDate: fetchData,
+
       filteredFiles,
+      items,
     };
   },
 };

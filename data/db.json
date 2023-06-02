@@ -1,0 +1,96 @@
+{
+  "items": [
+    {
+      "name": "new_samples",
+      "type": "dir",
+      "data": {
+        "type": "dir",
+        "file": "data/new_samples",
+        "file_ext": "dir",
+        "basename_file": "new_samples",
+        "count_dir_files": 2,
+        "get_directory_size": "2.93GB",
+        "last_modified_t": 1663804531,
+        "last_modified": "Wed. September 21st, 2022 - 11:55pm",
+        "cut_date": "Thu. January 1st, 1970 - 12:00am",
+        "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+        "return_direction": "older"
+      },
+      "subs": [
+        {
+          "name": "online_scanner",
+          "type": "dir",
+          "data": {
+            "type": "dir",
+            "file": "data/new_samples/online_scanner",
+            "file_ext": "dir",
+            "basename_file": "online_scanner",
+            "count_dir_files": 672,
+            "get_directory_size": "1.37GB",
+            "last_modified_t": 1663802441,
+            "last_modified": "Wed. September 21st, 2022 - 11:20pm",
+            "cut_date": "Thu. January 1st, 1970 - 12:00am",
+            "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+            "return_direction": "older"
+          },
+          "subs": null
+        }
+      ]
+    },
+
+    {
+      "name": "samples16092022",
+      "type": "dir",
+      "data": {
+        "type": "dir",
+        "file": "data/samples16092022",
+        "file_ext": "dir",
+        "basename_file": "samples16092022",
+        "count_dir_files": 2,
+        "get_directory_size": "3.38GB",
+        "last_modified_t": 1663325483,
+        "last_modified": "Fri. September 16th, 2022 - 10:51am",
+        "cut_date": "Thu. January 1st, 1970 - 12:00am",
+        "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+        "return_direction": "older"
+      },
+      "subs": {
+        "name": "online_scanner_error",
+        "type": "dir",
+        "data": {
+          "type": "dir",
+          "file": "data/new_samples/online_scanner_error",
+          "file_ext": "dir",
+          "basename_file": "online_scanner_error",
+          "count_dir_files": 299,
+          "get_directory_size": "1.56GB",
+          "last_modified_t": 1663801188,
+          "last_modified": "Wed. September 21st, 2022 - 10:59pm",
+          "cut_date": "Thu. January 1st, 1970 - 12:00am",
+          "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+          "return_direction": "older"
+        },
+        "subs": null
+      }
+    },
+
+    {
+      "name": "Zsll5ppBrdmdCzA6.png",
+      "type": "file",
+      "data": {
+        "type": "file",
+        "file": "data/Zsll5ppBrdmdCzA6.png",
+        "file_ext": "png",
+        "full_url": "https://php72.afk.mk/images/data/Zsll5ppBrdmdCzA6.png",
+        "is_image": true,
+        "basename_file": "Zsll5ppBrdmdCzA6.png",
+        "file_size": "9.81MB",
+        "last_modified_t": 1663607013,
+        "last_modified": "Mon. September 19th, 2022 - 05:03pm",
+        "cut_date": "Thu. January 1st, 1970 - 12:00am",
+        "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+        "return_direction": "older"
+      }
+    }
+  ]
+}

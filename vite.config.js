@@ -9,6 +9,6 @@ dotenv.config();
 export default defineConfig({
   plugins: [Icons({ compiler: "vue3" }), vue()],
   server: {
-    port: 3000,
+    port: 3001,
   },
 });
