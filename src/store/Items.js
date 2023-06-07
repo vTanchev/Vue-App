@@ -2,23 +2,22 @@ import { defineStore } from "pinia";
 
 export const useItemStore = defineStore("itemStore", {
   state: () => ({
-    fileItems: [],
     isLoading: false,
-    currentFolder: "",
-    depthSearch: 0,
+    activeData: [],
+    fileItems: [],
+    subItems: [],
   }),
   actions: {
-    async getItems(folder = "", depthSearch = 0) {
+    async getItems() {
       this.isLoading = true;
-      this.currentFolder = folder;
-      this.depthSearch = depthSearch;
 
-      const url = `http://localhost:3000/items/${folder}`;
+      const url = `http://localhost:3000/items/`;
 
       try {
         const res = await fetch(url);
         const data = await res.json();
         this.fileItems = data;
+        this.activeData = data;
       } catch (error) {
         console.error("Error fetching", error);
       }
@@ -26,21 +25,34 @@ export const useItemStore = defineStore("itemStore", {
       this.isLoading = false;
     },
 
-    async getSubItems(item) {
-      const folder = `${this.currentFolder}?name=${item.name}`;
-      const depthSearch = this.depthSearch + 1;
-      await this.getItems(folder, depthSearch);
+    async getSubItems(url) {
+      this.isLoading = true;
 
-      if (this.fileItems.length > 0 && item.subs && !Array.isArray(item.subs)) {
-        item.subs = this.fileItems;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.subs) {
+          this.subItems = datasubs;
+          this.activeData = datasubs;
+          console.log(data.subs, "tuka sme ");
+        } else {
+          this.subItems = data.subs;
+          this.activeData = data.subs;
+          console.log(data, "ne sme tuka");
+        }
+      } catch (error) {
+        console.error("Error fetching sub:", error);
       }
+
+      this.isLoading = false;
     },
 
     reset() {
-      this.fileItems = [];
       this.isLoading = false;
-      this.currentFolder = "";
-      this.depthSearch = 0;
+      this.activeData = [];
+      this.fileItems = [];
+      this.subItems = [];
     },
   },
 });

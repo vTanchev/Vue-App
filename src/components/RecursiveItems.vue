@@ -35,13 +35,9 @@
             </div>
           </a>
         </div>
-        <template
-          v-if="
-            selectedItem === item && selectedItem.subs && selectItem.subs > 0
-          "
-        >
-          <recursive-items :files="selectedItem" />
-        </template>
+        <!-- <template v-if="item.length > 0">
+          <recursive-items :files="files.subs" :key="item.name" />
+        </template> -->
       </template>
       <template v-else>
         <div class="main-file">
@@ -67,7 +63,7 @@
 
 <script>
 import { Icon } from "@iconify/vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, toRefs, computed, onMounted } from "vue";
 import { useItemStore } from "../store/Items";
 
 export default {
@@ -84,16 +80,12 @@ export default {
   setup(props) {
     const searchValue = ref("");
     const itemStore = useItemStore();
-    const selectedItem = ref(null);
 
     const selectItem = async (item) => {
-      if (item.type === "dir") {
-        console.log(item.subs);
-        await itemStore.getSubItems(item);
-        selectedItem.value = item;
-      }
+      const url = `http://localhost:3000/items/?name=${item.name}`;
+      await itemStore.getSubItems(url);
+      console.log(url);
     };
-    console.log(selectedItem);
 
     const onKeyUp = () => {};
 
@@ -102,16 +94,11 @@ export default {
       return props.files.filter((fileItem) => fileItem.name.match(matchRegex));
     });
 
-    onMounted(() => {
-      itemStore.getItems();
-    });
-
     return {
-      searchValue,
       itemStore,
-      selectedItem,
-      onKeyUp,
+      searchValue,
       selectItem,
+      onKeyUp,
       filteredFiles,
     };
   },

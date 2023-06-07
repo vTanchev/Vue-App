@@ -8,7 +8,7 @@
           <button @click="resetState">Reset state</button>
         </div>
       </div>
-      <recursive-items :files="fileItems"></recursive-items>
+      <recursive-items :files="activeData"></recursive-items>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
   },
   setup() {
     const itemStore = useItemStore();
-    const { fileItems, isLoading } = toRefs(itemStore.$state);
+    const { activeData, isLoading } = toRefs(itemStore.$state);
 
     // fetch
     onMounted(() => {
@@ -43,7 +43,7 @@ export default {
 
     return {
       isLoading,
-      fileItems,
+      activeData,
       resetState,
     };
   },
