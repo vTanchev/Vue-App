@@ -1,12 +1,13 @@
 <template>
-  <DataItems />
+  <Task2Vue />
 </template>
 
 <script>
-import DataItems from "./components/DataItems.vue";
+import Task2Vue from "./components/Task2.vue";
+
 export default {
   components: {
-    DataItems,
+    Task2Vue,
   },
 };
 </script>

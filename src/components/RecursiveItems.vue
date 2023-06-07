@@ -1,18 +1,13 @@
 <template>
   <div>
-    <div>
-      <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-else>
-        <div v-if="files.length > 0" class="search-box-wrap">
-          <input
-            type="text"
-            name="search-box"
-            placeholder="Search Files"
-            v-model="searchValue"
-            @keyup="onKeyUp"
-          />
-        </div>
-      </div>
+    <div v-if="files.length > 0" class="search-box-wrap">
+      <input
+        type="text"
+        name="search-box"
+        placeholder="Search Files"
+        v-model="searchValue"
+        @keyup="onKeyUp"
+      />
     </div>
     <div v-for="item in filteredFiles" :key="item.name" ref="ref_items">
       <template v-if="item.type === 'dir'">
@@ -25,12 +20,12 @@
                     ? 'material-symbols:folder-sharp'
                     : 'material-symbols:folder'
                 "
-                :color="item.subs && item.subs.length ? '#399ae5' : '#000'"
+                :color="item.subs && item.subs.length ? '#399ae5' : ''"
                 width="50px"
               />
             </div>
             <div class="file-info">
-              <div class="file-title">{{ item.data.basename_file }}</div>
+              <div class="file-title">{{ item.name }}</div>
               <div class="file-files">
                 {{ item.data.count_dir_files }} <span>FILES</span>
               </div>
@@ -40,9 +35,13 @@
             </div>
           </a>
         </div>
-        <div v-if="item.subs && item.shown" class="sub">
-          <file-item-vue :files="item.subs"></file-item-vue>
-        </div>
+        <template
+          v-if="
+            selectedItem === item && selectedItem.subs && selectItem.subs > 0
+          "
+        >
+          <recursive-items :files="selectedItem" />
+        </template>
       </template>
       <template v-else>
         <div class="main-file">
@@ -68,11 +67,11 @@
 
 <script>
 import { Icon } from "@iconify/vue";
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useItemStore } from "../store/Items";
 
 export default {
-  name: "file-item-vue",
+  name: "recursive-items",
   components: {
     Icon,
   },
@@ -82,42 +81,39 @@ export default {
       default: () => [],
     },
   },
-  setup() {
+  setup(props) {
     const searchValue = ref("");
-
     const itemStore = useItemStore();
+    const selectedItem = ref(null);
 
     const selectItem = async (item) => {
-      if (item.subs && item.subs.length > 0) {
-        await fetchSubItems(item);
+      if (item.type === "dir") {
+        console.log(item.subs);
+        await itemStore.getSubItems(item);
+        selectedItem.value = item;
       }
     };
-
-    const fetchSubItems = async (item) => {
-      await itemStore.getSubItems(item);
-      const subItems = getSubItems(item.name);
-      console.log(subItems);
-    };
-
-    const getSubItems = (folder) => {
-      return itemStore.subItemsCache[folder] || console.log("prazna niza");
-    };
+    console.log(selectedItem);
 
     const onKeyUp = () => {};
+
+    const filteredFiles = computed(() => {
+      const matchRegex = new RegExp(searchValue.value, "gi");
+      return props.files.filter((fileItem) => fileItem.name.match(matchRegex));
+    });
+
+    onMounted(() => {
+      itemStore.getItems();
+    });
 
     return {
       searchValue,
       itemStore,
-      selectItem,
-      getSubItems,
+      selectedItem,
       onKeyUp,
+      selectItem,
+      filteredFiles,
     };
-  },
-  computed: {
-    filteredFiles() {
-      const matchRegex = new RegExp(this.searchValue, "gi");
-      return this.files.filter((fileItem) => fileItem.name.match(matchRegex));
-    },
   },
 };
 </script>
@@ -181,12 +177,4 @@ span {
   font-size: 16px;
   border-top: solid 1px #ece9e9;
 }
-
-/* a {
-  display: flex;
-  text-decoration: none;
-}
-a p {
-  color: #666666;
-} */
 </style>

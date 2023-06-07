@@ -34,6 +34,40 @@
             "return_direction": "older"
           },
           "subs": null
+        },
+        {
+          "name": "online_scanner1",
+          "type": "dir",
+          "data": {
+            "type": "dir",
+            "file": "data/new_samples/online_scanner",
+            "file_ext": "dir",
+            "basename_file": "online_scanner",
+            "count_dir_files": 672,
+            "get_directory_size": "1.37GB",
+            "last_modified_t": 1663802441,
+            "last_modified": "Wed. September 21st, 2022 - 11:20pm",
+            "cut_date": "Thu. January 1st, 1970 - 12:00am",
+            "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+            "return_direction": "older"
+          },
+          "subs": {
+            "name": "online_scanner",
+            "type": "dir",
+            "data": {
+              "type": "dir",
+              "file": "data/new_samples/online_scanner",
+              "file_ext": "dir",
+              "basename_file": "online_scanner",
+              "count_dir_files": 672,
+              "get_directory_size": "1.37GB",
+              "last_modified_t": 1663802441,
+              "last_modified": "Wed. September 21st, 2022 - 11:20pm",
+              "cut_date": "Thu. January 1st, 1970 - 12:00am",
+              "cut_date_end": "Thu. January 1st, 1970 - 12:00am",
+              "return_direction": "older"
+            }
+          }
         }
       ]
     },

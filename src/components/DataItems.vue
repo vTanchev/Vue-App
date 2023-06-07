@@ -29,7 +29,7 @@ import Datepicker from "@vuepic/vue-datepicker";
 
 import "@vuepic/vue-datepicker/dist/main.css";
 
-import { computed, reactive, toRef, toRefs } from "vue";
+import { computed, reactive, toRef, toRefs, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useItemStore } from "../store/Items";
 
@@ -46,7 +46,9 @@ export default {
     const { items, isLoading } = toRefs(itemStore.$state);
 
     // fetch from store
-    itemStore.getItems();
+    onMounted(() => {
+      itemStore.getItems();
+    });
 
     const filteredFiles = computed(() => {
       if (starting_date.value || ending_date.value) {
@@ -68,7 +70,7 @@ export default {
           }
         });
       } else {
-        return files.value;
+        return items.value;
       }
     });
 
@@ -82,7 +84,6 @@ export default {
       isLoading,
       resetState,
       filters,
-
       filteredFiles,
       items,
     };
