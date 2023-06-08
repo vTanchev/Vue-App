@@ -9,7 +9,7 @@
         @keyup="onKeyUp"
       />
     </div>
-    <div v-for="item in filteredFiles" :key="item.name" ref="ref_items">
+    <div v-for="item in files" :key="item.id" ref="ref_items">
       <template v-if="item.type === 'dir'">
         <div class="main-file">
           <a class="file" @click="selectItem(item)">
@@ -35,9 +35,13 @@
             </div>
           </a>
         </div>
-        <!-- <template v-if="item.length > 0">
-          <recursive-items :files="files.subs" :key="item.name" />
-        </template> -->
+        <div
+          v-if="item.subs && item.subs.length > 0"
+          class="sub"
+          :class="{ shown: item.shown }"
+        >
+          <recursive-items :files="item.subs"></recursive-items>
+        </div>
       </template>
       <template v-else>
         <div class="main-file">
@@ -63,7 +67,7 @@
 
 <script>
 import { Icon } from "@iconify/vue";
-import { ref, toRefs, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useItemStore } from "../store/Items";
 
 export default {
@@ -82,9 +86,17 @@ export default {
     const itemStore = useItemStore();
 
     const selectItem = async (item) => {
-      const url = `http://localhost:3000/items/?name=${item.name}`;
-      await itemStore.getSubItems(url);
-      console.log(url);
+      if (item.subs && item.subs.length > 0) {
+        item.shown = !item.shown;
+      } else {
+        const url = `http://localhost:3000/items/?name=${item.name}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+
+        item.subs = data;
+        item.shown = true;
+      }
     };
 
     const onKeyUp = () => {};
@@ -104,7 +116,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 /* folder style */
 .main-file {

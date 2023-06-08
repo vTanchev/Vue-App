@@ -33,13 +33,13 @@ export const useItemStore = defineStore("itemStore", {
         const data = await res.json();
 
         if (data.subs) {
-          this.subItems = datasubs;
-          this.activeData = datasubs;
-          console.log(data.subs, "tuka sme ");
-        } else {
           this.subItems = data.subs;
           this.activeData = data.subs;
-          console.log(data, "ne sme tuka");
+          console.log(data.subs, "vo if uslov fleva");
+        } else {
+          this.subItems = data;
+          this.activeData = data;
+          console.log(data, "vo else uslov fleva");
         }
       } catch (error) {
         console.error("Error fetching sub:", error);
